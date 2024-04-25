@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "works",
+  "info": {
+    "singularName": "work",
+    "pluralName": "works",
+    "displayName": "Works",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "credits": {
+      "type": "text"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Branded Content",
+        "Narrative",
+        "Music Video"
+      ]
+    },
+    "client": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::client.client",
+      "inversedBy": "works"
+    },
+    "vimeoUrl": {
+      "type": "customField",
+      "customField": "plugin::oembed.oembed"
+    },
+    "officialURL": {
+      "type": "string",
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "presses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::press.press",
+      "mappedBy": "work"
+    }
+  }
+}
