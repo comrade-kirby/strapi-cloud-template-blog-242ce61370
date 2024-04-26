@@ -362,6 +362,80 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiClientClient extends Schema.CollectionType {
+  collectionName: 'clients';
+  info: {
+    singularName: 'client';
+    pluralName: 'clients';
+    displayName: 'Clients';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    logo: Attribute.Media;
+    works: Attribute.Relation<
+      'api::client.client',
+      'oneToMany',
+      'api::work.work'
+    >;
+    slug: Attribute.UID<'api::client.client', 'name'> & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::client.client',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::client.client',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWorkWork extends Schema.CollectionType {
+  collectionName: 'works';
+  info: {
+    singularName: 'work';
+    pluralName: 'works';
+    displayName: 'Works';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    credits: Attribute.Text;
+    description: Attribute.RichText;
+    category: Attribute.Enumeration<
+      ['Branded Content', 'Narrative', 'Music Video']
+    >;
+    client: Attribute.Relation<
+      'api::work.work',
+      'manyToOne',
+      'api::client.client'
+    >;
+    vimeoUrl: Attribute.Text & Attribute.CustomField<'plugin::oembed.oembed'>;
+    officialURL: Attribute.String & Attribute.Unique;
+    slug: Attribute.UID<'api::work.work', 'title'> & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::work.work', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::work.work', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -783,133 +857,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiClientClient extends Schema.CollectionType {
-  collectionName: 'clients';
-  info: {
-    singularName: 'client';
-    pluralName: 'clients';
-    displayName: 'Clients';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String;
-    logo: Attribute.Media;
-    works: Attribute.Relation<
-      'api::client.client',
-      'oneToMany',
-      'api::work.work'
-    >;
-    slug: Attribute.UID<'api::client.client', 'name'> & Attribute.Required;
-    presses: Attribute.Relation<
-      'api::client.client',
-      'oneToMany',
-      'api::press.press'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::client.client',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::client.client',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiPressPress extends Schema.CollectionType {
-  collectionName: 'presses';
-  info: {
-    singularName: 'press';
-    pluralName: 'presses';
-    displayName: 'Press';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    snippet: Attribute.String;
-    thumbnail: Attribute.Media;
-    publication: Attribute.String;
-    work: Attribute.Relation<'api::press.press', 'manyToOne', 'api::work.work'>;
-    slug: Attribute.UID<'api::press.press', 'title'>;
-    url: Attribute.String;
-    logo: Attribute.Media;
-    client: Attribute.Relation<
-      'api::press.press',
-      'manyToOne',
-      'api::client.client'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::press.press',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::press.press',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiWorkWork extends Schema.CollectionType {
-  collectionName: 'works';
-  info: {
-    singularName: 'work';
-    pluralName: 'works';
-    displayName: 'Works';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    credits: Attribute.Text;
-    description: Attribute.RichText;
-    category: Attribute.Enumeration<
-      ['Branded Content', 'Narrative', 'Music Video']
-    >;
-    client: Attribute.Relation<
-      'api::work.work',
-      'manyToOne',
-      'api::client.client'
-    >;
-    vimeoUrl: Attribute.Text & Attribute.CustomField<'plugin::oembed.oembed'>;
-    officialURL: Attribute.String & Attribute.Unique;
-    slug: Attribute.UID<'api::work.work', 'title'> & Attribute.Required;
-    presses: Attribute.Relation<
-      'api::work.work',
-      'oneToMany',
-      'api::press.press'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::work.work', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::work.work', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -920,6 +867,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::client.client': ApiClientClient;
+      'api::work.work': ApiWorkWork;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -928,9 +877,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::client.client': ApiClientClient;
-      'api::press.press': ApiPressPress;
-      'api::work.work': ApiWorkWork;
     }
   }
 }
