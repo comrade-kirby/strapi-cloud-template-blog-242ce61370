@@ -796,7 +796,6 @@ export interface ApiClientClient extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    logo: Attribute.Media;
     works: Attribute.Relation<
       'api::client.client',
       'oneToMany',
