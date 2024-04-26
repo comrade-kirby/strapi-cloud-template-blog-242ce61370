@@ -30,13 +30,15 @@
     },
     "client": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::client.client"
+      "relation": "manyToOne",
+      "target": "api::client.client",
+      "inversedBy": "presses"
     },
     "work": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::work.work"
+      "relation": "manyToOne",
+      "target": "api::work.work",
+      "inversedBy": "presses"
     }
   }
 }

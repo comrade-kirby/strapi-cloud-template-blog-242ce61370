@@ -36,6 +36,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "presses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::press.press",
+      "mappedBy": "client"
     }
   }
 }

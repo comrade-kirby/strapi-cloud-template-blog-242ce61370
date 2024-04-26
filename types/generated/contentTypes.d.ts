@@ -803,6 +803,11 @@ export interface ApiClientClient extends Schema.CollectionType {
       'api::work.work'
     >;
     slug: Attribute.UID<'api::client.client', 'name'> & Attribute.Required;
+    presses: Attribute.Relation<
+      'api::client.client',
+      'oneToMany',
+      'api::press.press'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -840,10 +845,10 @@ export interface ApiPressPress extends Schema.CollectionType {
     url: Attribute.String;
     client: Attribute.Relation<
       'api::press.press',
-      'oneToOne',
+      'manyToOne',
       'api::client.client'
     >;
-    work: Attribute.Relation<'api::press.press', 'oneToOne', 'api::work.work'>;
+    work: Attribute.Relation<'api::press.press', 'manyToOne', 'api::work.work'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -888,6 +893,11 @@ export interface ApiWorkWork extends Schema.CollectionType {
     vimeoUrl: Attribute.Text & Attribute.CustomField<'plugin::oembed.oembed'>;
     officialURL: Attribute.String & Attribute.Unique;
     slug: Attribute.UID<'api::work.work', 'title'> & Attribute.Required;
+    presses: Attribute.Relation<
+      'api::work.work',
+      'oneToMany',
+      'api::press.press'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
